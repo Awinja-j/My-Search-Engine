@@ -64,19 +64,17 @@ class LoadDocuments:
                 doc_id += 1
                 element.clear()
         end = time.time()
-        print(f'Parsing XML took {end - start} seconds')
+        logs.info(f'Parsing XML took {end - start} seconds')
 
     def insert_data(self):
         cursor = self.get_cursor()
-        for document in self.load_documents():
-            try:
-                
-                cursor.execute('INSERT INTO search.documents (ID, title, url, abstract) VALUES (%s, %s, %s, %s)',
-                            (document.ID, document.title, document.url, document.abstract))
-                self.cnx.commit()
-                logs.info(f'Inserted document {document.ID}')
-            except mysql.connector.errors.DatabaseError as err:
-                logs.error(document)
+        try:
+            sql = "INSERT INTO search.documents (ID, title, url, abstract) VALUES (%s, %s, %s, %s)"
+            cursor.executemany(sql, self.load_documents())
+            self.cnx.commit()
+            logs.info(f'Inserted document')
+        except mysql.connector.errors.DatabaseError as err:
+            logs.error(f'Error inserting document')
         cursor.close()
         print('Data inserted')
     
