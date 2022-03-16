@@ -2,7 +2,6 @@
 
 A simple search engine
 
-This application is a mix of [this](https://bart.degoe.de/building-a-full-text-search-engine-150-lines-of-code/) and [this]( https://towardsdatascience.com/create-a-simple-search-engine-using-python-412587619ff5) tutorial.
 
 This search Engine takes in a string query and returns data related to that string query.
 
@@ -21,5 +20,20 @@ Each document comes in the following format:
 ```
 The bits were interested in are the title, the url and the abstract text itself. 
 
-Step1: We are going to stream through the gzipped XML without loading the entire file into memory first
-Step2: 
+### Step1: Download data to your localhost
+
+simple click `https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract.xml.gz` 
+
+store the file in your root folder in folder called data.
+
+### Step2: Add data to the database
+
+run `python3 load.py & `
+
+This command runs in the background and will put out logs in `loaddata.log`
+
+### Step3: Query
+
+run `python3 run.py 'London Beer Flood'`
+
+
